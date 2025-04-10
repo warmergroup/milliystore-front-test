@@ -1,0 +1,20 @@
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import {resolve} from 'path'
+import {fileUrlTo}
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  server: {
+    host: '0.0.0.0',
+    port: 5173
+  },
+  resolve: {
+    alias: {
+      '@components': resolve(__dirname, './src/components'),
+      // '@assets': resolve(__dirname, './src/assets'),
+      // '@store': resolve(__dirname, './src/store'),
+      // '@utils': resolve(__dirname, './src/utils'),
+    },
+  }
+})
