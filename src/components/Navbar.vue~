@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom z-2 fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom z-2">
     <div class="container">
       <a class="navbar-brand" href="#">Milly<span class="text-primary">Store</span></a>
 

@@ -1,9 +1,11 @@
 <template>
-  <div class="row g-3 mt-3 mx-auto w-75">
+  <div class="container row g-3 mt-1 mx-auto">
     <!-- Kategoriyalar -->
-    <div class="col-2">
+    <div class="col-6 col-md-3 col-xl-3">
       <select class="form-select bg-dark text-light" v-model="selectedCategory">
-        <option class="bg-dark text-light" disabled selected value="">Kategoriyalar</option>
+        <option class="bg-dark text-light" disabled selected value="">
+          {{ t("filters.categories") }}
+        </option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
           {{ getCategoryName(cat) }}
         </option>
@@ -11,9 +13,11 @@
     </div>
 
     <!-- Davlatlar -->
-    <div class="col-2">
+    <div class="col-6 col-md-3 col-xl-3">
       <select class="form-select bg-dark text-light" v-model="selectedCountry">
-        <option class="bg-dark text-light" disabled selected value="">Davlatlar</option>
+        <option class="bg-dark text-light" disabled selected value="">
+          {{ t("filters.countries") }}
+        </option>
         <option v-for="country in countries" :key="country.id" :value="country.id">
           {{ getCountryName(country) }}
         </option>
@@ -21,70 +25,77 @@
     </div>
 
     <!-- Saralash -->
-    <div class="col-2">
+    <div class="col-6 col-md-3 col-xl-2">
       <select class="form-select bg-dark text-light" v-model="sortOption">
-        <option disabled selected value="">Saralash</option>
-        <option value="desc">Narxi: Yuqoridan</option>
-        <option value="asc">Narxi: Pastdan</option>
+        <option disabled selected value="">{{ t("filters.sort") }}</option>
+        <option value="desc">{{ t("filters.price_desc") }}</option>
+        <option value="asc">{{ t("filters.price_asc") }}</option>
       </select>
     </div>
 
-    <!-- Kalit so'z qidiruv -->
-    <div class="col-2">
-      <input type="search" class="form-control bg-dark text-light" placeholder="Kalit so'z" v-model="searchTerm">
+    <!-- Qidiruv -->
+    <div class="col-6 col-md-3 col-xl-3">
+      <input
+        type="search"
+        class="form-control bg-dark-subtle"
+        :placeholder="t('filters.search_placeholder')"
+        v-model="searchTerm"
+      />
     </div>
 
     <!-- Qidiruv tugmasi -->
-    <div class="col-2">
-      <button class="btn btn-primary w-100">Qidiruv</button>
+    <div class="col-12 col-md-12 col-xl-2">
+      <button class="btn btn-primary">
+        {{ t("filters.search_button") }}
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue';
-import {useCategories} from '../hooks/useCategory';
-import {useCountries} from '../hooks/useCountries';
-import {useLanguageStore} from '../stores/language.ts';
+import {ref, watch} from "vue";
+import {useCategories} from "../hooks/useCategory";
+import {useCountries} from "../hooks/useCountries";
+import {useLanguageStore} from "../stores/language.ts";
+import {useI18n} from "vue-i18n";
 
-// Store va funksiyalar
 const langStore = useLanguageStore();
+const {t} = useI18n();
 
-// Kategoriyalar va davlatlar ma'lumotlarini olish
+// Ma'lumotlar
 const {data: categories = []} = useCategories();
 const {data: countries = []} = useCountries();
 
-// Tilga qarab kategoriya nomini olish
+// Tarjima bo'yicha nom olish
 const getCategoryName = (cat: any) => {
   switch (langStore.lang) {
-    case 'ru':
-      return cat.name_ru || cat.name_uz; // Agar ruscha nom mavjud bo'lsa, uni qaytaradi
-    case 'en':
-      return cat.name_en || cat.name_uz; // Agar inglizcha nom mavjud bo'lsa, uni qaytaradi
+    case "ru":
+      return cat.name_ru || cat.name_uz;
+    case "en":
+      return cat.name_en || cat.name_uz;
     default:
-      return cat.name_uz; // O'zbekcha nomni qaytaradi
+      return cat.name_uz;
   }
 };
 
-// Tilga qarab davlat nomini olish
 const getCountryName = (country: any) => {
   switch (langStore.lang) {
-    case 'ru':
-      return country.name_ru || country.name_uz; // Agar ruscha nom mavjud bo'lsa, uni qaytaradi
-    case 'en':
-      return country.name_en || country.name_uz; // Agar inglizcha nom mavjud bo'lsa, uni qaytaradi
+    case "ru":
+      return country.name_ru || country.name_uz;
+    case "en":
+      return country.name_en || country.name_uz;
     default:
-      return country.name_uz; // O'zbekcha nomni qaytaradi
+      return country.name_uz;
   }
 };
 
-// Filter parametrlarini saqlash
-const selectedCategory = ref('');
-const selectedCountry = ref('');
-const searchTerm = ref('');
-const sortOption = ref('');
+// Filter parametrlari
+const selectedCategory = ref("");
+const selectedCountry = ref("");
+const searchTerm = ref("");
+const sortOption = ref("");
 
-// API so'rovlarini yaratish
+// API query parametrlari
 const queryParams = ref({});
 
 watch([selectedCategory, selectedCountry, searchTerm, sortOption], () => {
@@ -94,8 +105,11 @@ watch([selectedCategory, selectedCountry, searchTerm, sortOption], () => {
     ...(searchTerm.value && {search: searchTerm.value}),
     ...(sortOption.value && {
       order:
-        sortOption.value === 'asc' ? 'price_up' :
-          sortOption.value === 'desc' ? 'price_down' : '',
+        sortOption.value === "asc"
+          ? "price_up"
+          : sortOption.value === "desc"
+            ? "price_down"
+            : "",
     }),
     limit: 10,
   };
@@ -103,5 +117,13 @@ watch([selectedCategory, selectedCountry, searchTerm, sortOption], () => {
 </script>
 
 <style scoped>
-/* Filter styles */
+select,
+input {
+  min-height: 40px;
+}
+
+inpiut::placeholder {
+  color: #fff;
+  opacity: 1;
+}
 </style>

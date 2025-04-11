@@ -1,4 +1,3 @@
-// src/locales/uz.ts
 export default {
   navbar: {
     home: "Bosh sahifa",
@@ -16,5 +15,14 @@ export default {
   on_sale: "Sotuvda",
   views: "Ko‘rishlar",
   prev: "Oldingi",
-  next: "Keyingi"
+  next: "Keyingi",
+  filters: {
+    categories: "Kategoriyalar",
+    countries: "Davlatlar",
+    sort: "Saralash",
+    price_desc: "Narxi: Yuqoridan",
+    price_asc: "Narxi: Pastdan",
+    search_placeholder: "Kalit so'z",
+    search_button: "Qidiruv"
+  }
 }

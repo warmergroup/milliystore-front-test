@@ -1,4 +1,3 @@
-// src/locales/en.ts
 export default {
   navbar: {
     home: "Home",
@@ -16,5 +15,14 @@ export default {
   on_sale: "On Sale",
   views: "Views",
   prev: "Previous",
-  next: "Next"
+  next: "Next",
+  filters: {
+    categories: "Categories",
+    countries: "Countries",
+    sort: "Sort",
+    price_desc: "Price: High to Low",
+    price_asc: "Price: Low to High",
+    search_placeholder: "Search by keyword",
+    search_button: "Search"
+  }
 }

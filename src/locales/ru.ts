@@ -1,4 +1,3 @@
-// src/locales/ru.ts
 export default {
   navbar: {
     home: "Главная",
@@ -16,5 +15,14 @@ export default {
   on_sale: "В продаже",
   views: "Просмотры",
   prev: "Назад",
-  next: "Вперед"
+  next: "Вперед",
+  filters: {
+    categories: "Категории",
+    countries: "Страны",
+    sort: "Сортировать",
+    price_desc: "Цена: по убыванию",
+    price_asc: "Цена: по возрастанию",
+    search_placeholder: "Поиск по ключевому слову",
+    search_button: "Искать"
+  }
 }
