@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import {useLanguage} from "../hooks/useLanguage.ts";
+
+const {changeLanguage} = useLanguage()
+</script>
+
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
         <div class="container">
@@ -10,18 +16,11 @@
                         <img src="https://flagcdn.com/w20/uz.png" width="20" alt="Uzbekistan flag">
 
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                        <li>
-                            <a class="dropdown-item text-light d-flex align-items-center gap-2" href="#">
-                                <img src="https://flagcdn.com/w20/ru.png" width="20" alt="Russia flag" >
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-light d-flex align-items-center gap-2" href="#">
-                                <img src="https://flagcdn.com/w20/gb.png" width="20" alt="Great Britain flag">
-                            </a>
-                        </li>
-                    </ul>
+                  <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                    <li><a class="dropdown-item text-light" @click="changeLanguage('uz')">🇺🇿 O'zbekcha</a></li>
+                    <li><a class="dropdown-item text-light" @click="changeLanguage('ru')">🇷🇺 Русский</a></li>
+                    <li><a class="dropdown-item text-light" @click="changeLanguage('en')">🇬🇧 English</a></li>
+                  </ul>
                 </div>
                 <a href="#" class="text-light"><i class="fa-regular fa-heart"></i></a>
                 <a href="#" class="text-light"><i class="fa-solid fa-basket-shopping"></i></a>
@@ -29,6 +28,7 @@
         </div>
     </nav>
 </template>
+
 
 <style scoped>
 .navbar-brand {
