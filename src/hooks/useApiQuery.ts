@@ -1,13 +1,23 @@
-import { useQuery } from '@tanstack/vue-query';
+import {useQuery} from '@tanstack/vue-query';
+import type {UseQueryOptions, QueryKey} from '@tanstack/vue-query';
 import api from "../service/api.ts";
 
-export const useApiQuery = (endpoint, queryKey, params = {}, options = {}) => {
-  return useQuery({
+interface Params {
+  [key: string]: any;
+}
+
+export const useApiQuery = <T = any>(
+  endpoint: string,
+  queryKey: QueryKey,
+  params: Params = {},
+  options: Partial<UseQueryOptions<T>> = {} // 👈 Xato yo'q, xavfsizroq
+) => {
+  return useQuery<T>({
     queryKey,
     queryFn: async () => {
-      const response = await api.get(endpoint, { params });
-      return response.data; // API dan kelgan ma'lumotni qaytaradi
+      const response = await api.get<T>(endpoint, {params});
+      return response.data;
     },
-    ...options, // Vue Query uchun qo'shimcha opsiyalar
+    ...options,
   });
 };

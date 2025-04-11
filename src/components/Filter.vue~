@@ -1,5 +1,5 @@
 <template>
-  <div class="row g-3 mt-1 mx-auto w-75">
+  <div class="row g-3 mt-3 mx-auto w-75">
     <!-- Kategoriyalar -->
     <div class="col-2">
       <select class="form-select bg-dark text-light" v-model="selectedCategory">
