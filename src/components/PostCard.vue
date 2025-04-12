@@ -34,40 +34,28 @@ const getImage = computed(() => {
     ? `https://api.milliy.store/${props.post.images[0].rs_medium}`
     : 'https://via.placeholder.com/300x200';
 });
-
-console.log(props.post);
 </script>
 
 <template>
   <div class="card product-card">
-
-    <!-- Action buttons -->
     <button class="btn btn-secondary position-absolute z-1 top-0 end-0 m-1">
       <i class="far fa-heart"></i>
     </button>
-
-    <!-- Image -->
     <div class="image-container">
-      <img :src="getImage" class="card-img-top" :alt="post.title"/>
+      <img loading="lazy" :src="getImage" class="card-img-top" :alt="post.title"/>
       <div class="views-badge position-absolute bottom-0 start-0">
         <i class="far fa-eye"></i> {{ $t("views") }}: {{ post.views }}
       </div>
     </div>
 
-    <!-- Card Body -->
     <div class="card-body d-flex flex-column">
       <div class="flex-grow-1">
-        <!-- Title -->
-        <h5 class="card-title text-light">{{ post.title }}</h5>
-
-        <!-- Category/Subcategory -->
+        <h1 class="card-title text-light">{{ post.title }}</h1>
         <div class="card-category">
           <p class="text-secondary m-0">
             {{ post.cat2?.[`name_${lang} /`] || '' }} {{ post.cat3?.[`name_${lang}`] || '' }}
           </p>
         </div>
-
-        <!-- Location -->
         <div class="location">
           <small class="text-white-50">
             {{ post.region?.[`name_${lang} ,`] || '' }} {{ post.city?.[`name_${lang}`] || '' }}
@@ -75,14 +63,9 @@ console.log(props.post);
         </div>
       </div>
 
-      <!-- Footer (price + cart) -->
-      <div class=" d-flex justify-content-between align-items-center mt-2">
+      <div class="d-flex justify-content-between align-items-center mt-2">
         <p class="price p-0 m-0">
-          {{
-            post.price > 0
-              ? `${post.price} ${post.currency?.[`name_${lang}`] || ''}`
-              : $t("price_negotiable")
-          }}
+          {{ post.price }} {{ post.currency?.[`name_${lang}`] || '' }}
         </p>
         <button class="btn btn-secondary btn-sm">
           <i class="bi bi-cart"></i>
@@ -91,7 +74,6 @@ console.log(props.post);
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .card {
@@ -122,11 +104,6 @@ console.log(props.post);
   transform: scale(1.05);
 }
 
-.card-footer {
-  /* Always at bottom */
-  margin-top: auto;
-}
-
 .image-container {
   position: relative;
 }
@@ -140,18 +117,18 @@ console.log(props.post);
 }
 
 .card-title {
-  font-size: 1.1rem;
+  font-size: .8rem;
   font-weight: 600;
 }
 
 .card-category {
   font-size: 0.875rem;
-  color: #777;
+
 }
 
 .price {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 400;
   color: #007bff;
 }
 
@@ -159,6 +136,4 @@ console.log(props.post);
   font-size: 0.875rem;
   color: #6c757d;
 }
-
-
 </style>

@@ -3,9 +3,7 @@
     <!-- Kategoriyalar -->
     <div class="col-6 col-md-4 col-xl-3">
       <select class="form-select bg-dark text-light" v-model="selectedCategory">
-        <option class="bg-dark text-light" disabled selected value="">
-          {{ t("filters.categories") }}
-        </option>
+        <option class="bg-dark text-light" disabled selected value="">{{ t("filters.categories") }}</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
           {{ getCategoryName(cat) }}
         </option>
@@ -15,9 +13,7 @@
     <!-- Davlatlar -->
     <div class="col-6 col-md-4 col-xl-2">
       <select class="form-select bg-dark text-light" v-model="selectedCountry">
-        <option class="bg-dark text-light" disabled selected value="">
-          {{ t("filters.countries") }}
-        </option>
+        <option class="bg-dark text-light" disabled selected value="">{{ t("filters.countries") }}</option>
         <option v-for="country in countries" :key="country.id" :value="country.id">
           {{ getCountryName(country) }}
         </option>
@@ -45,9 +41,20 @@
 
     <!-- Qidiruv tugmasi -->
     <div class="col-2 col-md-3 col-xl-2">
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" @click="fetchFilteredPosts">
         {{ t("filters.search_button") }}
       </button>
+    </div>
+  </div>
+
+  <!-- Filtrlangan postlar -->
+  <div v-if="isLoading">Loading...</div>
+  <div v-if="isError">Xato yuz berdi!</div>
+
+  <div v-if="filteredPosts.length">
+    <div v-for="post in filteredPosts" :key="post.id">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.body }}</p>
     </div>
   </div>
 </template>
@@ -58,6 +65,7 @@ import {useCategories} from "../hooks/useCategory";
 import {useCountries} from "../hooks/useCountries";
 import {useLanguageStore} from "../stores/language.ts";
 import {useI18n} from "vue-i18n";
+import {useApiQuery} from "../hooks/useApiQuery";  // Yangi API hook'ni chaqiramiz
 
 const langStore = useLanguageStore();
 const {t} = useI18n();
@@ -95,25 +103,49 @@ const selectedCountry = ref("");
 const searchTerm = ref("");
 const sortOption = ref("");
 
+// Filterlangan postlar
+const filteredPosts = ref<any[]>([]); // Filtrlangan postlar ro'yxati
+const isLoading = ref(false); // Yuklanayotgan holat
+const isError = ref(false); // Xato holati
+
 // API query parametrlari
 const queryParams = ref({});
 
+// Filterlar o'zgarganda queryParams yangilanadi
 watch([selectedCategory, selectedCountry, searchTerm, sortOption], () => {
   queryParams.value = {
     ...(selectedCategory.value && {cat1: selectedCategory.value}),
     ...(selectedCountry.value && {country: selectedCountry.value}),
     ...(searchTerm.value && {search: searchTerm.value}),
     ...(sortOption.value && {
-      order:
-        sortOption.value === "asc"
-          ? "price_up"
-          : sortOption.value === "desc"
-            ? "price_down"
-            : "",
+      order: sortOption.value === "asc"
+        ? "price_up"
+        : sortOption.value === "desc"
+          ? "price_down"
+          : "",
     }),
     limit: 10,
   };
 });
+
+// Filterlangan postlarni olish
+const fetchFilteredPosts = async () => {
+  isLoading.value = true;
+  isError.value = false;
+
+  try {
+    // APIdan filterlangan postlarni olish
+    const response = await useApiQuery('/posts', ['posts'], queryParams.value);
+
+    // filteredPosts.value ni to'ldiramiz
+    filteredPosts.value = response.data; // `.value` orqali massivga murojaat qilish
+  } catch (error) {
+    console.error('Xato yuz berdi:', error);
+    isError.value = true;
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <style scoped>
@@ -122,7 +154,7 @@ input {
   min-height: 40px;
 }
 
-inpiut::placeholder {
+input::placeholder {
   color: #fff;
   opacity: 1;
 }

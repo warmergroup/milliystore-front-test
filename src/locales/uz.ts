@@ -16,6 +16,7 @@ export default {
   views: "Ko‘rishlar",
   prev: "Oldingi",
   next: "Keyingi",
+  load_more: "Ko'proq",
   filters: {
     categories: "Kategoriyalar",
     countries: "Davlatlar",

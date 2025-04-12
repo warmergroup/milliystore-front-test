@@ -16,7 +16,7 @@ export default {
   views: "Views",
   prev: "Previous",
   next: "Next",
-  load_more: "More",
+  load_more: "Load More",
   filters: {
     categories: "Categories",
     countries: "Countries",

@@ -16,6 +16,7 @@ export default {
   views: "Просмотры",
   prev: "Назад",
   next: "Вперед",
+  load_more: "Ещё",
   filters: {
     categories: "Категории",
     countries: "Страны",
