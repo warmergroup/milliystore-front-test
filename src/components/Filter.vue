@@ -33,8 +33,8 @@
       </select>
     </div>
 
-    <!-- Qidiruv -->
-    <div class="col-6 col-md-8 col-xl-3">
+    <!-- Qidiruv inputi -->
+    <div class="col-8 col-md-8 col-xl-3">
       <input
         type="search"
         class="form-control bg-dark-subtle"
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Qidiruv tugmasi -->
-    <div class="col-12 col-md-3 col-xl-2">
+    <div class="col-2 col-md-3 col-xl-2">
       <button class="btn btn-primary">
         {{ t("filters.search_button") }}
       </button>
