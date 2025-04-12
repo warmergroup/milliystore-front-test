@@ -1,8 +1,8 @@
 <template>
-  <div class="container mt-2 py-3">
+  <div class="container mt-2 py-3 pb-5">
     <div class="row g-4">
       <!-- Loading -->
-      <div v-if="isLoading" class="col-12 text-center">
+      <div v-if="isLoading" class="col-12 mt-5 text-center">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">{{ $t("loading") }}</span>
         </div>
@@ -14,7 +14,7 @@
       </div>
 
       <!-- Posts -->
-      <div v-for="post in posts" :key="post.id" class="col-12 col-md-6 col-lg-3">
+      <div v-for="post in posts" :key="post.id" class="col-6 col-md-4 col-lg-3">
         <PostCard :post="post"/>
       </div>
     </div>

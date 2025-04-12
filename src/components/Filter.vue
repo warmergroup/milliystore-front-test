@@ -1,7 +1,7 @@
 <template>
   <div class="container row g-3 mt-1 mx-auto">
     <!-- Kategoriyalar -->
-    <div class="col-6 col-md-3 col-xl-3">
+    <div class="col-6 col-md-4 col-xl-3">
       <select class="form-select bg-dark text-light" v-model="selectedCategory">
         <option class="bg-dark text-light" disabled selected value="">
           {{ t("filters.categories") }}
@@ -13,7 +13,7 @@
     </div>
 
     <!-- Davlatlar -->
-    <div class="col-6 col-md-3 col-xl-2">
+    <div class="col-6 col-md-4 col-xl-2">
       <select class="form-select bg-dark text-light" v-model="selectedCountry">
         <option class="bg-dark text-light" disabled selected value="">
           {{ t("filters.countries") }}
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Saralash -->
-    <div class="col-6 col-md-3 col-xl-2">
+    <div class="col-6 col-md-4 col-xl-2">
       <select class="form-select bg-dark text-light" v-model="sortOption">
         <option disabled selected value="">{{ t("filters.sort") }}</option>
         <option value="desc">{{ t("filters.price_desc") }}</option>
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Qidiruv -->
-    <div class="col-6 col-md-3 col-xl-3">
+    <div class="col-6 col-md-8 col-xl-3">
       <input
         type="search"
         class="form-control bg-dark-subtle"
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Qidiruv tugmasi -->
-    <div class="col-12 col-md-12 col-xl-2">
+    <div class="col-12 col-md-3 col-xl-2">
       <button class="btn btn-primary">
         {{ t("filters.search_button") }}
       </button>
