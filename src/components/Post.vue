@@ -1,8 +1,6 @@
 <template>
   <div class="container mt-2 py-3 pb-5">
     <div class="row g-4">
-
-
       <!-- Error -->
       <div v-if="isError" class="col-12 text-center text-danger">
         {{ $t('error_occurred') }}
@@ -14,15 +12,15 @@
       </div>
     </div>
 
-    <!-- Loading -->
+    <!-- Loading Spinner -->
     <div v-if="isLoading" class="d-flex justify-content-center align-items-center col-12 mt-5 mx-auto">
       <div class="spinner-border text-white" role="status">
         <span class="visually-hidden">{{ $t('loading') }}</span>
       </div>
     </div>
-    
-    <!-- Sentinel element for loading more posts -->
-    <div ref="loadMore" class="col-12 text-center mt-4" v-if="!isLoading">
+
+    <!-- Yuklash tugmasi va kuzatuv elementi -->
+    <div ref="loadMore" class="col-12 text-center mt-4" v-if="!isLoading && nextPageUrl">
       <button class="btn btn-outline-primary" @click="loadMorePosts">
         {{ $t('load_more') }}
       </button>
@@ -45,40 +43,49 @@ locale.value = langStore.lang;
 // Sahifalash
 const currentPage = ref(1);
 
-// Postlar API
-const {posts, isLoading, isError, loadPosts, nextPageUrl} = usePosts(); // `data` ni o'zgartirib, to'g'ridan-to'g'ri `posts` ni chaqirish
+// Postlar hook'dan
+const {posts, isLoading, isError, loadPosts, nextPageUrl} = usePosts();
 
-// Computed qiymatlar
-const totalPages = computed(() => nextPageUrl.value ? currentPage.value + 1 : 1);
+// Computed sahifalar soni
+const totalPages = computed(() => (nextPageUrl.value ? currentPage.value + 1 : currentPage.value));
 
-// Yangi postlarni yuklash
+// Elementga `ref`
+const loadMore = ref<HTMLElement | null>(null);
+
+// Qo‘shimcha postlarni yuklash
 const loadMorePosts = () => {
-  if (currentPage.value < totalPages.value) {
+  if (currentPage.value < totalPages.value && !isLoading.value) {
     currentPage.value += 1;
     loadPosts(currentPage.value);
   }
 };
 
-// Til o‘zgarsa query qayta ishlashi uchun kuzatish
+// Til o‘zgarganda postlarni qayta yuklash
 watch(() => langStore.lang, () => {
   locale.value = langStore.lang;
-  loadPosts(currentPage.value); // Til o'zgarganda postlarni qayta yuklash
+  currentPage.value = 1;
+  loadPosts(currentPage.value);
 });
 
-// IntersectionObserver yordamida sahifa oxiriga kiritilgan elementga yetganda yangi postlar yuklash
+// IntersectionObserver orqali avtomatik yuklash
 onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && currentPage.value < totalPages.value && !isLoading.value) {
-        loadMorePosts();
-      }
-    });
-  }, {
-    rootMargin: '0px',
-    threshold: 1.0,
-  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && currentPage.value < totalPages.value && !isLoading.value) {
+          loadMorePosts();
+        }
+      });
+    },
+    {
+      rootMargin: '0px',
+      threshold: 1.0,
+    }
+  );
 
-  observer.observe(document.querySelector('.load-more-sentinel')!);
+  if (loadMore.value) {
+    observer.observe(loadMore.value);
+  }
 });
 </script>
 
@@ -86,6 +93,5 @@ onMounted(() => {
 .spinner-border {
   width: 3rem;
   height: 3rem;
-
 }
 </style>

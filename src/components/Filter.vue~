@@ -106,11 +106,12 @@ const sortOption = ref("");
 // Filterlangan postlar
 const filteredPosts = ref<any[]>([]); // Filtrlangan postlar ro'yxati
 
+
 // API query parametrlari
 const queryParams = ref({});
 
-// useApiQuery natijalari
 const {
+  data: postsData,
   isFetching,
   isError: fetchError,
   refetch,
