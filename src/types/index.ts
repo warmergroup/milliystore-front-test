@@ -12,7 +12,7 @@ export interface iPost {
   cat1_id: number;
   cat2_id: number;
   cat3_id: number;
-  cat4_id?: number; // Ba'zan mavjud bo'lmasligi mumkin
+  cat4_id?: number; // cat4_id bo'sh bo'lishi mumkin
   country_id: number;
   created_at: string; // ISO formatli string
   updated_at: string | null;

@@ -17,7 +17,7 @@ export const usePosts = () => {
         params: {order: 'random', page, per_page: 12},
       });
 
-      // Agar keyingi sahifa mavjud bo'lsa, uni saqlang
+      // Agar keyingi sahifa mavjud bo'lsa, uni saqlash
       nextPageUrl.value = response.data.next_page_url;
 
       // Yangi postlarni eski ro'yxatga qo'shish
